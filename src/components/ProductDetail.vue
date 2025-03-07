@@ -3,6 +3,7 @@
       <img :src="product.image" :alt="product.name" class="product-image" />
       <h2>{{ product.name }}</h2>
       <p class="price">💰 가격: {{ product.price }} 원</p>
+      <button @click="purchaseProduct">🛒 구매하기</button>
       <button @click="goBack">🔙 뒤로 가기</button>
     </div>
     <div v-else>
@@ -11,14 +12,14 @@
   </template>
   
   <script>
-  import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';  // ✅ axios import 추가
+import { useRoute, useRouter } from 'vue-router';
   
   export default {
     setup() {
       const route = useRoute();
       const router = useRouter();
   
-      // 더미 데이터 (실제 프로젝트에서는 API에서 가져올 수도 있음)
       const products = [
       { id: 1, name: "아이폰 12", price: "500,000", image: new URL('@/assets/images/iphone.png', import.meta.url).href, isPopular: true },
         { id: 2, name: "갤럭시 S22", price: "600,000", image: new URL('@/assets/images/mac.png', import.meta.url).href, isPopular: false },
@@ -42,7 +43,29 @@
         router.push("/");
       };
   
-      return { product, goBack };
+      
+    // ✅ 결제 요청 함수 수정 (axios import 추가됨)
+    const purchaseProduct = async () => {
+      try {
+        console.log("🔵 결제 요청 보냄:", product.name, product.price);  // 로그 추가
+
+        const response = await axios.post("http://localhost:5000/api/payment", {
+          product_name: product.name,
+          price: parseInt(product.price.replace(",", ""))  // ✅ 문자열 가격 → 숫자로 변환
+        });
+
+        console.log("🟢 결제 응답:", response.data);  // 서버 응답 로그 확인
+
+        if (response.data.next_redirect_pc_url) {
+          window.location.href = response.data.next_redirect_pc_url; // 카카오페이 결제 페이지로 이동
+        }
+      } catch (error) {
+        console.error("🔴 결제 요청 중 오류 발생:", error);
+        alert("결제 요청 중 오류 발생!");
+      }
+    };
+
+      return { product, goBack ,purchaseProduct };
     }
   };
   </script>

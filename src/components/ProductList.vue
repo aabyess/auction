@@ -27,6 +27,7 @@
 import ProductCard from "@/components/ProductCard.vue";
 import { useRouter } from 'vue-router';
 
+
 export default {
   components: {
     ProductCard
