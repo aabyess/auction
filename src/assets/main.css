@@ -108,3 +108,78 @@
   .footer-links a:hover {
     color: #1E90FF;
   }
+
+/* 로그인 팝업 위치 조정 및 z-index 추가 */
+.login-popup {
+  position: fixed;
+  top: 30%;  /* ✅ 화면 중앙으로 조정 */
+  left: 50%;
+  transform: translate(-50%, -50%);  /* ✅ 완전 중앙 정렬 */
+  width: 300px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);  /* ✅ 그림자 추가 */
+  text-align: center;
+  transition: transform 0.3s ease-out;
+  z-index: 1000;  /* ✅ 배너보다 높은 우선순위 설정 */
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+.fade-enter-from, .fade-leave-to {
+  transform: translate(-50%, -60%);
+  opacity: 0;
+}
+.fade-enter-to, .fade-leave-from {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+  
+  /* 로그인 폼 스타일 */
+  .login-content input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-content button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .close-btn {
+    background: #ccc;
+  }
+  .welcome-message {
+    font-size: 16px;
+    color: #1E90FF;  /* ✅ 배경과 대비되도록 색상 변경 */
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  
+  .logout-btn {
+    background: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* 회원가입 링크 스타일 */
+  .signup-link {
+    color: black;
+    cursor: pointer;
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: underline;
+  }
